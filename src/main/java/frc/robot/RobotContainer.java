@@ -69,7 +69,7 @@ public class RobotContainer {
 
     private final ElevadorSub elevSub = new ElevadorSub();
     
-    private final ManipuloSub manipuloSub = new ManipuloSub();
+    public static final ManipuloSub manipuloSub = new ManipuloSub();
 
     private final ElevAngSub elevAngSub = new ElevAngSub();
 
@@ -148,25 +148,25 @@ public class RobotContainer {
         
         
 
-        joystick.a().onTrue(new Inclinacao(manipuloSub, Constants.MangP2));
-        joystick.b().onTrue(new ManipuloRotCMD(manipuloSub, Constants.RotP1));
-        //joystick.b().onTrue(new ElevadorCMD(elevSub, 148));
-        //joystick.a().onTrue(new ElevadorCMD(elevSub, 0));
-
-
-        joystick.y().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.RotP1, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
-        joystick.x().onTrue(new ManipuladorColetaCMD(Mcoleta, -0.5));
-
-        joystick.button(6).onTrue(new ManipuladorDispCMD(Mcoleta, 0.1));
-        //joystick.button(5).whileTrue(new ManipuladorCMD(Mcoleta, Constants.Velo_Cospe));
-
-
-
-
-        joystick.back().onTrue(new sequenciaColeta(manipuloSub, Constants.MangP1, Constants.RotP2, Mcoleta, Constants.Velo_Coleta, elevAngSub, Constants.ElevAngC));
-        //joystick.start().whileTrue(new ElevAngCMD(elevAngSub, -0.1));
+        joystick.a().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.Rot180, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
+        joystick.x().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.Rot180, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
+        joystick.y().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.Rot180, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
         
+        joystick.b().onTrue(new sequenciaColeta(manipuloSub, Constants.MangP2, Constants.Rot180, Mcoleta, Constants.Velo_Coleta, elevAngSub, Constants.ElevAngC));
+        
+        if (joystick.button(5).getAsBoolean()) {
 
+            joystick.a().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.Rot180, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
+            joystick.x().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.Rot180, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
+            joystick.y().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.Rot180, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
+        
+        }
+
+
+        joystick.back().onTrue(new ManipuloRotCMD(manipuloSub, 180));
+        joystick.back().onFalse(new ManipuloRotCMD(manipuloSub, 0));
+        joystick.start().onTrue(new Inclinacao(manipuloSub, 45));
+        joystick.start().onFalse(new Inclinacao(manipuloSub, -30));
 
 
         

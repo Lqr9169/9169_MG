@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevAngSub;
@@ -39,20 +40,21 @@ public class ElevAngCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    erro = setpoint - elevAngSub.ElevAngMotorE.getEncoder().getPosition();
+    erro = setpoint - elevAngSub.angulo;
+    SmartDashboard.putNumber("erro", Math.abs(erro));
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-    elevAngSub.pararelevdorAng();
+    System.out.println("saiiiiii");
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(elevAngSub.ElevAngMotorE.getEncoder().getPosition() - setpoint) < 2.0;
+    return Math.abs(erro) < 2.0;
   }
 }

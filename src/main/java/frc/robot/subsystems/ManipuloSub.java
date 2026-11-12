@@ -22,7 +22,7 @@ public class ManipuloSub extends SubsystemBase{
         public double encoderA, encoderB; 
         public double AnguloA, AnguloB;
         public double alvoRot = 0.0, alvoInc = 0.0;
-        public double rotAtual, incAtual;
+        public static double rotAtual, incAtual;
     
         private PIDController pidRot, pidInc;
     
@@ -33,8 +33,8 @@ public class ManipuloSub extends SubsystemBase{
         Mrot1 = new SparkMax(Constants.Manipulo_AngE, MotorType.kBrushless);
         Mrot2 = new SparkMax(Constants.Manipulo_AngD, MotorType.kBrushless);
 
-        pidRot = new PIDController(0.001, 0.0, 0.0);
-        pidInc = new PIDController(0.001, 0.0, 0.0);
+        pidRot = new PIDController(0.002, 0.0, 0.0);
+        pidInc = new PIDController(0.002, 0.0, 0.0);
 
         rampA = new SlewRateLimiter(1);
         rampB = new SlewRateLimiter(1);

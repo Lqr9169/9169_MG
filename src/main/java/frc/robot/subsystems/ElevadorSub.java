@@ -32,7 +32,7 @@ SlewRateLimiter ramp;
         pid.setSetpoint(setpoint);
         double calculoPID = pid.calculate(encoder);
         double calculoRamp = ramp.calculate(calculoPID);
-        double position = MathUtil.clamp(calculoRamp, -0.1, 0.1);
+        double position = MathUtil.clamp(calculoRamp, -0.3, 0.3);
         Elev1.set(position);
     }
     

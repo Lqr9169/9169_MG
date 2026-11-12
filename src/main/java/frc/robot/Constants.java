@@ -20,20 +20,20 @@ public class Constants
 
 
   public static final double MangP1 = 0;
-  public static final double MangP2 = -30;
+  public static final double MangP2 = -40;
   public static final double MangP3 = 0;
 
 
 
-  public static final double RotP1 = 115;
-  public static final double RotP2 = -1.95;
-  public static final double RotP3 = 0;
+  public static final double Rot180 = 180;
+  public static final double Rot90 = 90;
+  public static final double Rot0 = 0;
 
 
   public static final double ElevAng0 = 0;
-  public static final double ElevAngP1 = -77;
-  public static final double ElevAngC = -81;
-  public static final double ElevAng_default = -20;
+  public static final double ElevAngP1 = -15;
+  public static final double ElevAngC = -60;
+  public static final double ElevAng_default = -10;
 //-81
 
   public static final double Velo_Coleta = -0.5;

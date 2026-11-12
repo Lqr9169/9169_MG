@@ -48,10 +48,6 @@ public class ManipuladorColetaCMD extends Command {
   @Override
   public void execute() {
     
-    SmartDashboard.putNumber("velo", MCsub.Mdisp.get());
-    if (MCsub.Mdisp.getOutputCurrent() >= 36 && time.get() > 0.1) {
-      MCsub.Metodoverica();
-    }
   }
     
   
@@ -59,7 +55,7 @@ public class ManipuladorColetaCMD extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    MCsub.Metodoverica();
     time.stop();
     System.out.println("manipulo");
   }
@@ -67,6 +63,6 @@ public class ManipuladorColetaCMD extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.joystick.button(5).getAsBoolean();
+    return MCsub.Mdisp.getOutputCurrent() >= 36 && time.get() > 0.1;
   }
 }

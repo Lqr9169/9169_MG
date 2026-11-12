@@ -48,6 +48,6 @@ public class ManipuloRotCMD extends Command {
   @Override
   public boolean isFinished() {
 
-    return Math.abs(erro) < 7;
+    return Math.abs(erro) < 5;
   }
 }

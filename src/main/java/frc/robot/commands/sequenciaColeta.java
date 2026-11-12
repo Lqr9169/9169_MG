@@ -12,14 +12,17 @@ public class sequenciaColeta extends SequentialCommandGroup{
     public sequenciaColeta(ManipuloSub manipuloSub, double setpointMA, double setpointMR, ManipuladorSub ManipuloSub, double velo, ElevAngSub elevAng, double elevangSet){
         addCommands(
             new ParallelCommandGroup(
-                new ManipuladorColetaCMD(ManipuloSub, velo),
-                new SequentialCommandGroup(
-                    new Inclinacao(manipuloSub, setpointMA),
-                    new ElevAngCMD(elevAng, elevangSet),
-                    new ElevAngCMD(elevAng, 0),
-                    new ManipuloRotCMD(manipuloSub, setpointMR)
-                )
-            )
+                new ManipuloRotCMD(manipuloSub, setpointMR),
+                new ElevAngCMD(elevAng, elevangSet)
+            ),
+            new Inclinacao(manipuloSub, setpointMA),
+            new ManipuladorColetaCMD(ManipuloSub, velo),
+            new ParallelCommandGroup(
+                new ElevAngCMD(elevAng, -10),
+                new Inclinacao(manipuloSub, 0)
+            ),
+            new ManipuloRotCMD(manipuloSub, 0)
+            
         );
     }
 
