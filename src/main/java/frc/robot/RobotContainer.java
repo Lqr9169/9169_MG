@@ -25,6 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ManipuloAngCMD;
 import frc.robot.commands.ManipuloRotCMD;
+import frc.robot.commands.ManipuloPosCMD;
+import frc.robot.commands.sequenciaColeta;
 import frc.robot.commands.sequenciaPontua;
 import frc.robot.commands.ElevAngCMD;
 import frc.robot.commands.ElevadorCMD;
@@ -155,8 +157,19 @@ public class RobotContainer {
         //joystick.x().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.RotP1, Mcoleta, Constants.Velo_Coleta, elevAngSub, Constants.ElevAngC));
         //joystick.x().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.RotP1, Mcoleta, Constants.Velo_Coleta, elevAngSub, Constants.ElevAngC));
 
-        joystick.y().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.RotP1, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
+        joystick.y().onTrue(new sequenciaPontua(manipuloSub, Constants.Manipulo.PONTUA_PIVO, Constants.Manipulo.PONTUA_ROT, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
         joystick.x().onTrue(new ElevadorCMD(elevSub, 0));
+
+        // ---------------- Manipulador diferencial (angulos em graus) ----------------
+        // D-pad cima: vai para a coleta, coleta ate pegar a peca e volta para a posicao inicial
+        joystick.povUp().onTrue(new sequenciaColeta(manipuloSub, Mcoleta));
+        // D-pad baixo: volta para a posicao inicial (cancela a coleta se estiver rodando)
+        joystick.povDown().onTrue(manipuloSub.posicaoInicial());
+        // D-pad direita / esquerda: gira o manipulador +90 / -90 graus (pivo mantido)
+        joystick.povRight().onTrue(new ManipuloPosCMD(manipuloSub, Double.NaN, 90));
+        joystick.povLeft().onTrue(new ManipuloPosCMD(manipuloSub, Double.NaN, -90));
+        // Back: considera a posicao atual como 0/0 (use com o manipulador na posicao inicial)
+        joystick.back().onTrue(manipuloSub.zerar());
 
         //joystick.button(6).whileTrue(new ManipuladorCMD(Mcoleta, Constants.Velo_Coleta));
         //joystick.button(5).whileTrue(new ManipuladorCMD(Mcoleta, Constants.Velo_Cospe));
