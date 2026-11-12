@@ -18,16 +18,17 @@ public class sequenciaPontua extends SequentialCommandGroup{
             new ParallelCommandGroup(
                 new ElevAngCMD(elevAng, elevangSet),
                 new ManipuloRotCMD(manipuloSub, setpointMR)),
-            new ManipuloAngCMD(manipuloSub, setpointMA),
+            new Inclinacao(manipuloSub, setpointMA),
             new ElevadorCMD(elevSub, 0),
             new WaitUntilCommand(RobotContainer.joystick.button(5)),
-            new ManipuladorCMD(ManipuloSub, velo),
+            new ManipuladorDispCMD(ManipuloSub, velo),
             new ElevadorCMD(elevSub, 0),
             new ParallelCommandGroup(
-                new ElevAngCMD(elevAng, Constants.ElevAng_default),
-                new ManipuloAngCMD(manipuloSub, -1.27)),
-            new ManipuloRotCMD(manipuloSub, setpointMR),
-            new ManipuladorCMD(ManipuloSub, velo)
+                new ElevAngCMD(elevAng, Constants.ElevAng_default)
+                //new Inclinacao(manipuloSub, )),
+                ),
+            new ManipuloRotCMD(manipuloSub, 0)
+           
                 
         );
         

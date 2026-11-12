@@ -53,7 +53,6 @@ public class ElevAngCMD extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.joystick.a().getAsBoolean() == false &&
-      RobotContainer.joystick.b().getAsBoolean() == false;
+    return Math.abs(elevAngSub.ElevAngMotorE.getEncoder().getPosition() - setpoint) < 2.0;
   }
 }

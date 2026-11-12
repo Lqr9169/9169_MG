@@ -23,13 +23,14 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.ManipuloAngCMD;
-import frc.robot.commands.ManipuloRotCMD;
 import frc.robot.commands.sequenciaPontua;
 import frc.robot.commands.ElevAngCMD;
 import frc.robot.commands.ElevadorCMD;
-import frc.robot.commands.ManipuladorCMD;
-
+import frc.robot.commands.Inclinacao;
+import frc.robot.commands.ManipuloRotCMD;
+import frc.robot.commands.ManipuladorColetaCMD;
+import frc.robot.commands.ManipuladorDispCMD;
+import frc.robot.commands.sequenciaColeta;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevAngSub;
@@ -147,24 +148,22 @@ public class RobotContainer {
         
         
 
-        joystick.a().onTrue(new ManipuladorCMD(Mcoleta, -0.5));
-        joystick.b().onTrue(new ManipuladorCMD(Mcoleta, 0.5));
+        joystick.a().onTrue(new Inclinacao(manipuloSub, Constants.MangP2));
+        joystick.b().onTrue(new ManipuloRotCMD(manipuloSub, Constants.RotP1));
         //joystick.b().onTrue(new ElevadorCMD(elevSub, 148));
         //joystick.a().onTrue(new ElevadorCMD(elevSub, 0));
 
-        //joystick.x().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.RotP1, Mcoleta, Constants.Velo_Coleta, elevAngSub, Constants.ElevAngC));
-        //joystick.x().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.RotP1, Mcoleta, Constants.Velo_Coleta, elevAngSub, Constants.ElevAngC));
 
         joystick.y().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2, Constants.RotP1, Mcoleta, Constants.Velo_Cospe, elevAngSub, Constants.ElevAng_default, elevSub, Constants.EL0));
-        joystick.x().onTrue(new ElevadorCMD(elevSub, 0));
+        joystick.x().onTrue(new ManipuladorColetaCMD(Mcoleta, -0.5));
 
-        //joystick.button(6).whileTrue(new ManipuladorCMD(Mcoleta, Constants.Velo_Coleta));
+        joystick.button(6).onTrue(new ManipuladorDispCMD(Mcoleta, 0.1));
         //joystick.button(5).whileTrue(new ManipuladorCMD(Mcoleta, Constants.Velo_Cospe));
 
 
 
 
-        //joystick.back().whileTrue(new ElevAngCMD(elevAngSub, 0.1));
+        joystick.back().onTrue(new sequenciaColeta(manipuloSub, Constants.MangP1, Constants.RotP2, Mcoleta, Constants.Velo_Coleta, elevAngSub, Constants.ElevAngC));
         //joystick.start().whileTrue(new ElevAngCMD(elevAngSub, -0.1));
         
 

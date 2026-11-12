@@ -19,13 +19,13 @@ public class Constants
   public static final int M3 = 0;
 
 
-  public static final double MangP1 = -1.0;
-  public static final double MangP2 = 1.0;
+  public static final double MangP1 = 0;
+  public static final double MangP2 = -30;
   public static final double MangP3 = 0;
 
 
 
-  public static final double RotP1 = 1.95;
+  public static final double RotP1 = 115;
   public static final double RotP2 = -1.95;
   public static final double RotP3 = 0;
 
@@ -36,7 +36,16 @@ public class Constants
   public static final double ElevAng_default = -20;
 //-81
 
-  public static final double Velo_Coleta = -0.1;
-  public static final double Velo_Cospe = 0.1;
+  public static final double Velo_Coleta = -0.5;
+  public static final double Velo_Cospe = 0.4;
   
+  public  final static double GearBoxA = 3.8095202445983887;
+  public  final static double GearBoxB = 3.833329677581787; 
+
+  public static final int Button_A = 1;
+  public static final int Button_B = 2;
+  public static final int Button_X = 3;
+  public static final int Button_Y = 4;
+  public static final int Left_Bumper = 5;
+  public static final int Right_Bumper = 6;
 }

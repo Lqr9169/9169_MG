@@ -1,62 +1,53 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 
-import com.revrobotics.PersistMode;
-import com.revrobotics.ResetMode;
-
+import edu.wpi.first.units.measure.MutResistance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ManipuloSub;
+import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.ManipuloSub;
 
-/** An example command that uses an example subsystem. */
+
+
 public class ManipuloRotCMD extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ManipuloSub manipuloSub;
+
+  private final ManipuloSub MRsub;
   double setpoint;
   double erro;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ManipuloRotCMD(ManipuloSub manipuloSub, double setpoint) {
-    this.manipuloSub = manipuloSub;
-    this.setpoint = setpoint;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(manipuloSub);
+  public ManipuloRotCMD(ManipuloSub MRsub, double angulo) {
+    setpoint = angulo;
+    this.MRsub = MRsub;
+
+    addRequirements(MRsub);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    manipuloSub.ManipuloMotor2.configure(Robot.seguidorManipulo2, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    manipuloSub.getSetpoint(setpoint);
+    MRsub.setRotacao(setpoint);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    erro = setpoint - manipuloSub.ManipuloMotor1.getEncoder().getPosition();
+      
+    erro = setpoint - MRsub.rotAtual;
+    SmartDashboard.putNumber("erro", erro);
+    //if (MRsub.rotAtual <= 35.0) {
+    //    
+    //  MRsub.setInclinacao(0.0);
+    //}
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    manipuloSub.ManipuloMotor1.getEncoder().setPosition(0);
-    manipuloSub.getSetpoint(0);
-    System.out.println("rot");
+    System.out.println("scared é gay");
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(erro) <= 0.15
-    ;
+
+    return Math.abs(erro) < 7;
   }
 }
