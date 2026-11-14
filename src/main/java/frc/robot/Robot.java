@@ -88,10 +88,11 @@ public class Robot extends TimedRobot {
         
         
         SmartDashboard.putNumber("encoderElev1", ElevadorSub.Elev1.getEncoder().getPosition());
-        SmartDashboard.putNumber("encoderRot1", ManipuloSub.rotAtual);
+        SmartDashboard.putNumber("encoderRot", ManipuloSub.rotAtual);
+        SmartDashboard.putNumber("encoderMangulo", ManipuloSub.incAtual);
         SmartDashboard.putNumber("encoderManipulador", ManipuladorSub.Mdisp.getEncoder().getPosition());
         SmartDashboard.putNumber("corrente_manipulo", ManipuladorSub.Mdisp.getOutputCurrent());
-        SmartDashboard.putNumber("ang_elev", ElevAngSub.angulo);
+        SmartDashboard.putNumber("ang_elev", ElevAngSub.encoder.get() * 360);
         
        
     

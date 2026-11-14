@@ -16,7 +16,7 @@ import frc.robot.subsystems.ElevadorSub;
 public class ElevAngCMD extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ElevAngSub elevAngSub;
-  double setpoint;
+  double graus;
   double erro;
 
   /**
@@ -24,9 +24,9 @@ public class ElevAngCMD extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ElevAngCMD(ElevAngSub elevAngSub, double setpoint) {
+  public ElevAngCMD(ElevAngSub elevAngSub, double graus) {
     this.elevAngSub = elevAngSub;
-    this.setpoint = setpoint;
+    this.graus = graus;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevAngSub);
   }
@@ -34,13 +34,13 @@ public class ElevAngCMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevAngSub.getSetpoint(setpoint);
+    elevAngSub.getSetpoint(graus);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    erro = setpoint - elevAngSub.angulo;
+    erro = graus - elevAngSub.encoder.get() * 360.0;
     SmartDashboard.putNumber("erro", Math.abs(erro));
     
   }

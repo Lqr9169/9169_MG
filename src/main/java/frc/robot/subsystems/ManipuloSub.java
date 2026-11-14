@@ -27,30 +27,38 @@ public class ManipuloSub extends SubsystemBase{
         private PIDController pidRot, pidInc;
     
         private SlewRateLimiter rampA, rampB;
+        double Kp1, Kp2;
     
     public ManipuloSub() {
     
         Mrot1 = new SparkMax(Constants.Manipulo_AngE, MotorType.kBrushless);
         Mrot2 = new SparkMax(Constants.Manipulo_AngD, MotorType.kBrushless);
 
-        pidRot = new PIDController(0.002, 0.0, 0.0);
-        pidInc = new PIDController(0.002, 0.0, 0.0);
+        
+        
 
-        rampA = new SlewRateLimiter(1);
-        rampB = new SlewRateLimiter(1);
+        rampA = new SlewRateLimiter(3);
+        rampB = new SlewRateLimiter(3);
     }
 
     public void setRotacao(double graus) {
 
+        Kp1 = 0.001;
+        Kp2 = 0.001;
         alvoRot = graus;
     }
     public void setInclinacao(double graus) {
 
+        Kp1 = 0.003;
+        Kp2 = 0.003;
         alvoInc = graus;
     }
 
     @Override
     public void periodic() {
+
+        pidRot = new PIDController(Kp1, 0.0, 0.0);
+        pidInc = new PIDController(Kp2, 0.0, 0.0);
 
         //Motor 1
             encoderA = Mrot1.getEncoder().getPosition();
@@ -75,8 +83,8 @@ public class ManipuloSub extends SubsystemBase{
         double outputA = outputRot - outputInc;
         double outputB = outputRot + outputInc;
 
-        outputA = MathUtil.clamp(outputA, -0.1, 0.1);
-        outputB = MathUtil.clamp(outputB, -0.1, 0.1);
+        outputA = MathUtil.clamp(outputA, -0.5, 0.5);
+        outputB = MathUtil.clamp(outputB, -0.5, 0.5);
 
         outputA = rampA.calculate(outputA);
         outputB = rampB.calculate(outputB);
