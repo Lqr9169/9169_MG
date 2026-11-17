@@ -30,9 +30,9 @@ public class Robot extends TimedRobot {
     public static SparkMaxConfig seguidorManipulo2;
     
 
-    public static boolean verifica = false;
 
     private final RobotContainer m_robotContainer;
+    
 
     /* log and replay timestamp and joystick data */
     private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
@@ -41,7 +41,6 @@ public class Robot extends TimedRobot {
 
     public Robot() {
         m_robotContainer = new RobotContainer();
-        
     }
 
     @Override
@@ -76,7 +75,7 @@ public class Robot extends TimedRobot {
 
         ElevadorSub.Elev1.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         ElevadorSub.Elev2.configure(seguidorElv, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        ManipuloSub.ManipuloMotor1.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        ManipuloSub.Mrot1.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         ElevAngSub.ElevAngMotorE.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         ElevAngSub.ElevAngMotorD.configure(seguidorElvAng, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         ManipuladorSub.Mdisp.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -89,10 +88,11 @@ public class Robot extends TimedRobot {
         
         
         SmartDashboard.putNumber("encoderElev1", ElevadorSub.Elev1.getEncoder().getPosition());
-        SmartDashboard.putNumber("encoderAngulo1", ManipuloSub.ManipuloMotor1.getEncoder().getPosition());
+        SmartDashboard.putNumber("encoderRot", ManipuloSub.rotAtual);
+        SmartDashboard.putNumber("encoderMangulo", ManipuloSub.incAtual);
         SmartDashboard.putNumber("encoderManipulador", ManipuladorSub.Mdisp.getEncoder().getPosition());
         SmartDashboard.putNumber("corrente_manipulo", ManipuladorSub.Mdisp.getOutputCurrent());
-        SmartDashboard.putNumber("ang_elev", ElevAngSub.ElevAngMotorE.getEncoder().getPosition());
+        SmartDashboard.putNumber("ang_elev", ElevAngSub.encoder.get() * 360);
         
        
     

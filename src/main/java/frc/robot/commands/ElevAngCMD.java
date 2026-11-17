@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ElevAngSub;
@@ -15,7 +16,7 @@ import frc.robot.subsystems.ElevadorSub;
 public class ElevAngCMD extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ElevAngSub elevAngSub;
-  double setpoint;
+  double graus;
   double erro;
 
   /**
@@ -23,9 +24,9 @@ public class ElevAngCMD extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ElevAngCMD(ElevAngSub elevAngSub, double setpoint) {
+  public ElevAngCMD(ElevAngSub elevAngSub, double graus) {
     this.elevAngSub = elevAngSub;
-    this.setpoint = setpoint;
+    this.graus = graus;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevAngSub);
   }
@@ -33,27 +34,27 @@ public class ElevAngCMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    elevAngSub.getSetpoint(setpoint);
+    elevAngSub.getSetpoint(graus);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    erro = setpoint - elevAngSub.ElevAngMotorE.getEncoder().getPosition();
+    erro = graus - elevAngSub.encoder.get() * 360.0;
+    
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-    elevAngSub.pararelevdorAng();
+    
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.joystick.a().getAsBoolean() == false &&
-      RobotContainer.joystick.b().getAsBoolean() == false;
+    return Math.abs(erro) < 2.0;
   }
 }

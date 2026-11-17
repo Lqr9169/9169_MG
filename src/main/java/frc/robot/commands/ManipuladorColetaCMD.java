@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ManipuloSub;
 import frc.robot.RobotContainer;
@@ -13,10 +15,11 @@ import frc.robot.subsystems.ManipuladorSub;
 
 
 /** An example command that uses an example subsystem. */
-public class ManipuladorCMD extends Command {
+public class ManipuladorColetaCMD extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ManipuladorSub MCsub;
   double velo;
+  Timer time;
   
 
   /**
@@ -24,10 +27,10 @@ public class ManipuladorCMD extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ManipuladorCMD(ManipuladorSub MCsub, double velo) {
+  public ManipuladorColetaCMD(ManipuladorSub MCsub, double velo) {
     this.velo = velo;
     this.MCsub = MCsub;
-  
+    time = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(MCsub);
   }
@@ -35,25 +38,31 @@ public class ManipuladorCMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    time.stop();
+    time.reset();
     MCsub.coleta(velo);
+    time.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    MCsub.Metodoverica();
+    
   }
+    
+  
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    MCsub.verifica = true;
-    System.out.println("manipulo");
+    MCsub.Metodoverica();
+    time.stop();
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return MCsub.Mdisp.getOutputCurrent() >= 36; //|| RobotContainer.joystick.button(5).getAsBoolean();
+    return MCsub.Mdisp.getOutputCurrent() >= 39 && time.get() > 0.1;
   }
 }
