@@ -22,10 +22,11 @@ public class sequenciaPontua extends SequentialCommandGroup{
             new ElevadorCMD(elevSub, elevSet),
             new WaitUntilCommand(RobotContainer.joystick.button(Constants.Right_Bumper)),
             new ManipuladorDispCMD(ManipuloSub, velo),
-            new ElevadorCMD(elevSub, Constants.Elevador_Default),
+            new WaitUntilCommand(RobotContainer.joystick.button(Constants.Right_Bumper)),
+            new ElevadorCMD(elevSub, Constants.Elev_Default),
             new ParallelCommandGroup(
-                new ElevAngCMD(elevAng, Constants.ElevAng_Default)
-                //new Inclinacao(manipuloSub, )),
+                new ElevAngCMD(elevAng, Constants.Ang_Default),
+                new Inclinacao(manipuloSub, Constants.Inc_Default)
                 ),
             new ManipuloRotCMD(manipuloSub, Constants.Rot0)
            

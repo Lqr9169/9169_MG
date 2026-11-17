@@ -19,7 +19,7 @@ public class sequenciaColeta extends SequentialCommandGroup{
             new Inclinacao(manipuloSub, setpointMA),
             new ManipuladorColetaCMD(ManipuloSub, velo),
             new ParallelCommandGroup(
-                new ElevAngCMD(elevAng, Constants.ElevAng_Default),
+                new ElevAngCMD(elevAng, Constants.Ang_Default),
                 new Inclinacao(manipuloSub, Constants.Inc_Default)
             ),
             new ManipuloRotCMD(manipuloSub, Constants.Rot0)

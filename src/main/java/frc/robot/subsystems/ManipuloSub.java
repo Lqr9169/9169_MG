@@ -23,11 +23,12 @@ public class ManipuloSub extends SubsystemBase{
         public double AnguloA, AnguloB;
         public double alvoRot = 0.0, alvoInc = 0.0;
         public static double rotAtual, incAtual;
+        double speed = 0.5;
     
         private PIDController pidRot, pidInc;
     
         private SlewRateLimiter rampA, rampB;
-        double Kp1, Kp2;
+        double Kp1 = 0.001, Kp2 = 0.001;
     
     public ManipuloSub() {
     
@@ -42,15 +43,15 @@ public class ManipuloSub extends SubsystemBase{
     }
 
     public void setRotacao(double graus) {
-
-        Kp1 = 0.001;
-        Kp2 = 0.001;
+        speed = 0.5;
+        Kp1 = 0.0018;
+        Kp2 = 0.0018;
         alvoRot = graus;
     }
     public void setInclinacao(double graus) {
-
-        Kp1 = 0.003;
-        Kp2 = 0.003;
+        speed = 1;
+        Kp1 = 0.0028;
+        Kp2 = 0.0028;
         alvoInc = graus;
     }
 
@@ -77,20 +78,32 @@ public class ManipuloSub extends SubsystemBase{
         rotAtual = (AnguloA + AnguloB) / 2.0;
         incAtual = (AnguloB - AnguloA) / 2.0;
 
+
+        if (RobotContainer.joystick.getLeftTriggerAxis() > 0.05) {
+
+            alvoInc = alvoInc + 1;
+        }
+
+        else if (RobotContainer.joystick.getRightTriggerAxis() > 0.05) {
+
+           alvoInc = alvoInc - 1;
+        }
+
         double outputRot = pidRot.calculate(rotAtual, alvoRot);
         double outputInc = pidInc.calculate(incAtual, alvoInc);
 
         double outputA = outputRot - outputInc;
         double outputB = outputRot + outputInc;
 
-        outputA = MathUtil.clamp(outputA, -0.5, 0.5);
-        outputB = MathUtil.clamp(outputB, -0.5, 0.5);
+        outputA = MathUtil.clamp(outputA, -speed, speed);
+        outputB = MathUtil.clamp(outputB, -speed, speed);
 
         outputA = rampA.calculate(outputA);
         outputB = rampB.calculate(outputB);
 
         Mrot1.set(outputA);
         Mrot2.set(outputB);
+        
 
         SmartDashboard.putNumber(
             "Robo/Manipulador/EncoderA", encoderA

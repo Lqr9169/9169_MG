@@ -57,12 +57,12 @@ public class ManipuladorColetaCMD extends Command {
   public void end(boolean interrupted) {
     MCsub.Metodoverica();
     time.stop();
-    System.out.println("manipulo");
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return MCsub.Mdisp.getOutputCurrent() >= 36 && time.get() > 0.1;
+    return MCsub.Mdisp.getOutputCurrent() >= 39 && time.get() > 0.1;
   }
 }

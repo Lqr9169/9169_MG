@@ -41,14 +41,14 @@ public class ElevAngCMD extends Command {
   @Override
   public void execute() {
     erro = graus - elevAngSub.encoder.get() * 360.0;
-    SmartDashboard.putNumber("erro", Math.abs(erro));
+    
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("saiiiiii");
+    
     
   }
 

@@ -15,13 +15,13 @@ public class ElevAngSub extends SubsystemBase{
 public static SparkMax ElevAngMotorE;
 public static SparkMax ElevAngMotorD;
 PIDController pid;
-double setpoint = Constants.ElevAng_Default;//275;
+double setpoint = Constants.Ang_Default;//275;
 SlewRateLimiter ramp;
 public static DutyCycleEncoder encoder;
     public ElevAngSub(){
         ElevAngMotorE = new SparkMax(Constants.ElevAng_E, MotorType.kBrushless);
         ElevAngMotorD = new SparkMax(Constants.ElevAng_D, MotorType.kBrushless);
-        pid = new PIDController(0.009, 0, 0);
+        pid = new PIDController(0.0185, 0, 0);
         pid.enableContinuousInput(0, 360);
         ramp = new SlewRateLimiter(4);
         encoder = new DutyCycleEncoder(0, 1.0, 0.68);//0.31/0.68 & 0.78

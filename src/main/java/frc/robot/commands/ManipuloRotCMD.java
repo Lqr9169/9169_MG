@@ -33,7 +33,7 @@ public class ManipuloRotCMD extends Command {
   public void execute() {
       
     erro = setpoint - MRsub.rotAtual;
-    SmartDashboard.putNumber("erro", erro);
+    
     //if (MRsub.rotAtual <= 35.0) {
     //    
     //  MRsub.setInclinacao(0.0);
@@ -42,7 +42,7 @@ public class ManipuloRotCMD extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    System.out.println("scared é gay");
+    
   }
 
   @Override

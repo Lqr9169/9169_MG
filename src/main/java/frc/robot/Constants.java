@@ -13,22 +13,28 @@ public class Constants
   public static final int ElevAng_D = 16;
 
 
-  public static final int Elevador_Default = 0;
-  public static final int Elev_Mat1 = 0;
-  public static final int Elev_Mat2 = 0;
-  public static final int Elev_Mat3 = 85;
+  public static final double Elev_Tower1 = 0;
+  public static final double Elev_Tower2 = 0;
+  public static final double Elev_Tower3 = 0;
+
+
+  public static final double Elev_Default = 0;
+  public static final double Elev_Mat1 = 0;
+  public static final double Elev_Mat2 = 0;
+  public static final double Elev_Mat3 = 0;
 
 
   public static final double Inc_Default = 0;
-  public static final double Inc_Tower1 = 0;
+
+  public static final double Inc_Tower1 = 50;
   public static final double Inc_Tower2 = 0;
   public static final double Inc_Tower3 = 0;
 
-  public static final double Inc_Intake = -19;
+  public static final double Inc_Intake = 33;//35
 
-  public static final double Inc_Mat1 = -1;
-  public static final double Inc_Mat2 = -18;
-  public static final double Inc_Mat3 = -62;
+  public static final double Inc_Mat1 = 0;//-1
+  public static final double Inc_Mat2 = 22;
+  public static final double Inc_Mat3 = -84;
 
 
 
@@ -37,15 +43,21 @@ public class Constants
   public static final double Rot0 = 0;
 
 
+  public static final double Ang_Tower1 = 210;
+  public static final double Ang_Tower2 = 0;
+  public static final double Ang_Tower3 = 0;
+
+
   public static final double Ang_Mat1 = 200.55;
   public static final double Ang_Mat2 = 235;
-  public static final double Ang_Mat3 = 245.5;
+  public static final double Ang_Mat3 = 273;
   public static final double Ang_Intake = 180;
-  public static final double ElevAng_Default = 235;
+  public static final double Ang_Default = 235;
 //-81
 
   public static final double Speed_Intake = -0.5;
   public static final double Speed_Outtake = 0.6;
+  public static final double Speed_OuttakeT = 0.2;
   
   public  final static double GearBoxA = 3.8095202445983887;
   public  final static double GearBoxB = 3.833329677581787; 

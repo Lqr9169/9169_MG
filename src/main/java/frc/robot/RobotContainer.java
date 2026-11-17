@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.sequenciaPontua;
 import frc.robot.commands.ElevAngCMD;
@@ -47,9 +48,11 @@ public class RobotContainer {
                                                                                       // max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
-    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+    private final SwerveRequest.FieldCentric fieldDrive = new SwerveRequest.FieldCentric()
+            .withDeadband(MaxSpeed * 0.1)
+            .withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+
 
     private final SwerveRequest.FieldCentricFacingAngle headingController = new SwerveRequest.FieldCentricFacingAngle()
             .withDeadband(MaxSpeed * 0.1)
@@ -74,23 +77,17 @@ public class RobotContainer {
 
     private final ManipuladorSub Mcoleta = new ManipuladorSub();
 
+    Trigger left_Bumper = joystick.leftBumper();
+
     public RobotContainer() {
         configureBindings();
-
+        
     }
 
     private void configureBindings() {
 
         drivetrain.setDefaultCommand(
-                // Drivetrain will execute this command periodically
-                // drivetrain.applyRequest(() ->
-                // drive.withVelocityX(-joystick.getLeftY() * MediumSpeed) // Drive forward with
-                // negative Y (forward)
-                // .withVelocityY(-joystick.getLeftX() * MediumSpeed) // Drive left with
-                // negative X (left)
-                // .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive
-                // counterclockwise with negative X (left)
-                // )
+                
                 drivetrain.applyRequest(() -> {
                     double rightX = -joystick.getRightX();
                     Rotation2d currentHeading = drivetrain.getState().Pose.getRotation();
@@ -98,7 +95,7 @@ public class RobotContainer {
                     if (Math.abs(rightX) > 0.05) {
                         headingDesejado = currentHeading;
 
-                        return drive.withVelocityX(-joystick.getLeftY() * MediumSpeed)
+                        return fieldDrive.withVelocityX(-joystick.getLeftY() * MediumSpeed)
                                 .withVelocityY(-joystick.getLeftX() * MediumSpeed)
                                 .withRotationalRate(rightX * MaxAngularRate);
 
@@ -126,35 +123,28 @@ public class RobotContainer {
         RobotModeTriggers.disabled().whileTrue(
                 drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
-        // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        // joystick.b().whileTrue(drivetrain.applyRequest(() ->
-        // point.withModuleDirection(new Rotation2d(-joystick.getLeftY(),
-        // -joystick.getLeftX()))
-        // ));
 
-        // Run SysId routines when holding back/start and X/Y.
-        // Note that each routine should be run exactly once in a single log.
-        // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        // joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        // joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
+    // pontuação na Matriz
+        
+        //pontua lvl 1M
         joystick.a().onTrue(
             new sequenciaPontua(
-                manipuloSub, Constants.Inc_Mat1, Constants.Rot0,
+                manipuloSub, Constants.Inc_Mat1, Constants.Rot180,
                 Mcoleta, Constants.Speed_Outtake,
                 elevAngSub, Constants.Ang_Mat1,
                 elevSub, Constants.Elev_Mat1));
 
+        //pontua lvl 2M
         joystick.x().onTrue(
             new sequenciaPontua(
-                manipuloSub, Constants.Inc_Mat2,Constants.Rot0,
+                manipuloSub, Constants.Inc_Mat2,Constants.Rot180,
                 Mcoleta, Constants.Speed_Outtake,
                 elevAngSub,Constants.Ang_Mat2,
                 elevSub, Constants.Elev_Mat2
             )
         );
 
+        //pontua lvl 3M
         joystick.y().onTrue(
             new sequenciaPontua(
                 manipuloSub, Constants.Inc_Mat3 ,Constants.Rot180,
@@ -162,39 +152,51 @@ public class RobotContainer {
                 elevAngSub, Constants.Ang_Mat3,
                 elevSub, Constants.Elev_Mat3));
 
-        
+        // Coleta
         joystick.b().onTrue(
             new sequenciaColeta(
                 manipuloSub, Constants.Inc_Intake, Constants.Rot180,
                 Mcoleta, Constants.Speed_Intake,
                 elevAngSub, Constants.Ang_Intake));
 
-        joystick.button(Constants.Right_Bumper).onTrue(
+        //botão para pontuar fora do seçuencial
+        joystick.start().onTrue(
             new ManipuladorDispCMD(
-                Mcoleta, Constants.Speed_Outtake)
+                Mcoleta, Constants.Speed_Outtake));
+
+    // pontuação na torre
+
+        //pontua lvl 1T
+        joystick.a().and(left_Bumper).onTrue(
+            new sequenciaPontua(
+                manipuloSub, Constants.Inc_Tower1, Constants.Rot0,
+                Mcoleta, Constants.Speed_OuttakeT,
+                elevAngSub, Constants.Ang_Tower1,
+                elevSub, Constants.Elev_Tower1));
+        
+        //pontua lvl 2T
+        joystick.x().and(left_Bumper).onTrue(
+            new sequenciaPontua(
+                manipuloSub, Constants.Inc_Tower2,Constants.Rot180,
+                Mcoleta, Constants.Speed_OuttakeT,
+                elevAngSub,Constants.Ang_Tower2,
+                elevSub, Constants.Elev_Tower2
+            )
         );
 
-        // if (joystick.button(5).getAsBoolean()) {
-        //
-        // joystick.a().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2,
-        // Constants.Rot180, Mcoleta, Constants.Velo_Cospe, elevAngSub,
-        // Constants.ElevAng_default, elevSub, Constants.EL0));
-        // joystick.x().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2,
-        // Constants.Rot180, Mcoleta, Constants.Velo_Cospe, elevAngSub,
-        // Constants.ElevAng_default, elevSub, Constants.EL0));
-        // joystick.y().onTrue(new sequenciaPontua(manipuloSub, Constants.MangP2,
-        // Constants.Rot180, Mcoleta, Constants.Velo_Cospe, elevAngSub,
-        // Constants.ElevAng_default, elevSub, Constants.EL0));
-        //
-        // }
+        //pontua lvl 3T
+        joystick.y().and(left_Bumper).onTrue(
+            new sequenciaPontua(
+                manipuloSub, Constants.Inc_Tower3 ,Constants.Rot180,
+                Mcoleta, Constants.Speed_OuttakeT,
+                elevAngSub, Constants.Ang_Tower3,
+                elevSub, Constants.Elev_Tower3));
+     
+        
 
-        joystick.back().onTrue(new ManipuloRotCMD(manipuloSub, 180));
-        joystick.back().onFalse(new ManipuloRotCMD(manipuloSub, 0));// 0
-        joystick.start().onTrue(new Inclinacao(manipuloSub, 45));// 45
-        joystick.start().onFalse(new Inclinacao(manipuloSub, -30));
+        joystick.back().onTrue(new ElevAngCMD(elevAngSub, Constants.Ang_Intake));
+        //joystick.start().onTrue(new ElevAngCMD(elevAngSub, 270));
 
-        // Reset the field-centric heading on left bumper press.
-        // joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         // drivetrain.registerTelemetry(logger::telemeterize);
         drivetrain.registerTelemetry(state -> {
@@ -216,7 +218,7 @@ public class RobotContainer {
                 // facing away from our alliance station wall (0 deg).
                 drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
                 // Then slowly drive forward (away from us) for 5 seconds.
-                drivetrain.applyRequest(() -> drive.withVelocityX(0.5)
+                drivetrain.applyRequest(() -> fieldDrive.withVelocityX(0.5)
                         .withVelocityY(0)
                         .withRotationalRate(0))
                         .withTimeout(5.0),
