@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.ElevAngSub;
 import frc.robot.subsystems.ManipuladorSub;
@@ -18,6 +19,7 @@ public class sequenciaColeta extends SequentialCommandGroup{
             ),
             new Inclinacao(manipuloSub, setpointMA),
             new ManipuladorColetaCMD(ManipuloSub, velo),
+            new WaitCommand(1),
             new ParallelCommandGroup(
                 new ElevAngCMD(elevAng, Constants.Ang_Default),
                 new Inclinacao(manipuloSub, Constants.Inc_Default)
