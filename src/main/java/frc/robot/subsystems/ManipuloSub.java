@@ -50,8 +50,8 @@ public class ManipuloSub extends SubsystemBase{
     }
     public void setInclinacao(double graus) {
         speed = 1;
-        Kp1 = 0.0028;
-        Kp2 = 0.0028;
+        Kp1 = 0.0029;
+        Kp2 = 0.0029;
         alvoInc = graus;
     }
 

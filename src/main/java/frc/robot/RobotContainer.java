@@ -157,7 +157,8 @@ public class RobotContainer {
             new sequenciaColeta(
                 manipuloSub, Constants.Inc_Intake, Constants.Rot180,
                 Mcoleta, Constants.Speed_Intake,
-                elevAngSub, Constants.Ang_Intake));
+                elevAngSub, Constants.Ang_Intake,
+                elevSub, Constants.Elev_Default));
 
         //botão para pontuar fora do seçuencial
         joystick.start().onTrue(
@@ -194,8 +195,7 @@ public class RobotContainer {
      
         
 
-        joystick.back().onTrue(new ElevAngCMD(elevAngSub, Constants.Ang_Intake));
-        //joystick.start().onTrue(new ElevAngCMD(elevAngSub, 270));
+        
 
 
         // drivetrain.registerTelemetry(logger::telemeterize);

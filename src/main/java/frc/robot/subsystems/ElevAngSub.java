@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class ElevAngSub extends SubsystemBase{
 public static SparkMax ElevAngMotorE;
@@ -24,7 +25,7 @@ public static DutyCycleEncoder encoder;
         pid = new PIDController(0.0185, 0, 0);
         pid.enableContinuousInput(0, 360);
         ramp = new SlewRateLimiter(4);
-        encoder = new DutyCycleEncoder(0, 1.0, 0.68);//0.31/0.68 & 0.78
+        encoder = new DutyCycleEncoder(0, 1.0, 0.729);//0.31/0.68 & 0.78
         encoder.setInverted(true);
     }
 
@@ -35,10 +36,20 @@ public static DutyCycleEncoder encoder;
 
     @Override
     public void periodic() {
+
+        //if (RobotContainer.joystick.start().getAsBoolean() && RobotContainer.joystick.leftBumper().getAsBoolean()) {
+
+        //    setpoint = setpoint + 1;
+        //}
+
+        //else if (RobotContainer.joystick.back().getAsBoolean() && RobotContainer.joystick.leftBumper().getAsBoolean()) {
+
+        //   setpoint = setpoint - 1;
+        //}
         
         double calculoPID = pid.calculate(encoder.get() * 360.0, setpoint);
         double calculoRamp = ramp.calculate(calculoPID);
-        double position = MathUtil.clamp(calculoRamp, -0.75, 0.75);
+        double position = MathUtil.clamp(calculoRamp, -0.75, 0.75);//75
         ElevAngMotorE.set(position);
     }
     
