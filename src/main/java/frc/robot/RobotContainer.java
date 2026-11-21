@@ -157,7 +157,8 @@ public class RobotContainer {
             new sequenciaColeta(
                 manipuloSub, Constants.Inc_Intake, Constants.Rot180,
                 Mcoleta, Constants.Speed_Intake,
-                elevAngSub, Constants.Ang_Intake));
+                elevAngSub, Constants.Ang_Intake,
+                elevSub, Constants.Elev_Default));
 
         //botão para pontuar fora do seçuencial
         joystick.start().onTrue(
